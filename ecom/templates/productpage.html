@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row w-full gap-6 p-6">
+  <!-- Left Section: Product Info -->
+  <div class="card bg-white rounded-lg w-full md:w-1/2 p-6 shadow-md">
+    <figure class="mb-6">
+      <img 
+        src="{{ product.image_url }}" 
+        alt="{{ product.name }}" 
+        class="rounded-lg w-full h-full object-cover" />
+    </figure>
+    <div class="card-body">
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">{{ product.name }}</h2>
+      <p class="text-gray-600 text-base mb-6 leading-relaxed">{{ product.description }}</p>
+      <p class="text-2xl font-semibold text-gray-800 mb-6">${{ product.price }}</p>
+      <button class="btn btn-primary w-full py-3 text-lg">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Right Section: Recommended Products -->
+  <div class="card bg-white rounded-lg w-full md:w-1/2 p-6 shadow-md">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Recommended Products</h1>
+    
+    <div class="space-y-6"> <!-- Space between cards -->
+      {% for recommended_product in recommended_products %}
+      <div class="card card-side bg-white shadow-xl">
+        <figure class="w-1/3">
+          <img
+            src="{{ recommended_product.image_url }}"
+            alt="{{ recommended_product.name }}"
+            class="w-full h-full object-cover rounded-l-lg" />
+        </figure>
+        <div class="card-body w-2/3 p-4">
+          <h2 class="card-title text-md font-semibold text-gray-800 truncate">{{ recommended_product.name }}</h2>
+          <p class="text-sm text-gray-600 truncate mb-4">{{ recommended_product.description|slice:":100" }}</p> <!-- Truncate description to 100 chars -->
+          <div class="card-actions justify-end">
+            <a href="{% url 'productpage' recommended_product.id %}" class="btn btn-primary btn-sm px-4 py-2">View Product</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if recommended_products|length == 0 %}
+    <p class="text-gray-500 text-center mt-6">No recommendations available.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
