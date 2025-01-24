@@ -1,7 +1,6 @@
 Django>=4.2,<5.0
 gunicorn
 whitenoise
-apturl==0.5.2
 asgiref==3.8.1
 bcrypt==3.2.0
 blinker==1.4
